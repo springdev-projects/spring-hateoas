@@ -18,6 +18,7 @@ package org.springframework.hateoas.mvc;
 import static org.springframework.hateoas.TemplateVariable.VariableType.*;
 import static org.springframework.hateoas.TemplateVariables.*;
 import static org.springframework.hateoas.core.EncodingUtils.*;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.getBuilder;
 import static org.springframework.web.util.UriComponents.UriTemplateVariables.*;
 
 import java.lang.reflect.Method;
@@ -138,8 +139,7 @@ public class ControllerLinkBuilderFactory implements MethodLinkBuilderFactory<Co
 		Method method = invocation.getMethod();
 
 		String mapping = DISCOVERER.getMapping(invocation.getTargetType(), method);
-
-		UriComponentsBuilder builder = ControllerLinkBuilder.getBuilder().path(mapping);
+		UriComponentsBuilder builder = getBuilder().path(mapping);
 
 		UriTemplate template = new UriTemplate(mapping);
 		Map<String, Object> values = new HashMap<String, Object>();

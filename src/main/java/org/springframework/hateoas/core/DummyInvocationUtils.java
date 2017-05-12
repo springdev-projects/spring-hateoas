@@ -18,7 +18,9 @@ package org.springframework.hateoas.core;
 import lombok.NonNull;
 import lombok.Value;
 
+import java.beans.Introspector;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
@@ -98,6 +100,10 @@ public class DummyInvocationUtils {
 		@Override
 		public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) {
 
+//			if (method.getName().equals("toString")) {
+//				return "Debugging?";
+//			}
+
 			if (GET_INVOCATIONS.equals(method)) {
 				return getLastInvocation();
 			} else if (GET_OBJECT_PARAMETERS.equals(method)) {
@@ -106,10 +112,14 @@ public class DummyInvocationUtils {
 				return ReflectionUtils.invokeMethod(method, obj, args);
 			}
 
-			this.invocation = new SimpleMethodInvocation(targetType, method, args);
+			this.invocation = new SimpleMethodInvocation(targetType, method, args, getLastInvocation());
 
 			Class<?> returnType = method.getReturnType();
-			return returnType.cast(getProxyWithInterceptor(returnType, this, obj.getClass().getClassLoader()));
+			if (Modifier.isFinal(returnType.getModifiers())) {
+				return null;
+			} else {
+				return returnType.cast(getProxyWithInterceptor(returnType, this, obj.getClass().getClassLoader()));
+			}
 		}
 
 		/* 
@@ -162,7 +172,7 @@ public class DummyInvocationUtils {
 
 	@SuppressWarnings("unchecked")
 	private static <T> T getProxyWithInterceptor(Class<?> type, InvocationRecordingMethodInterceptor interceptor,
-			ClassLoader classLoader) {
+												 ClassLoader classLoader) {
 
 		if (type.isInterface()) {
 
@@ -218,5 +228,15 @@ public class DummyInvocationUtils {
 		@NonNull Class<?> targetType;
 		@NonNull Method method;
 		@NonNull Object[] arguments;
+		MethodInvocation invocation;
+
+		@Override
+		public String toString() {
+			return (invocation != null ? invocation.toString() + "." : "") + getPropertyFromMethod(method);
+		}
+
+		private String getPropertyFromMethod(Method method) {
+			return Introspector.decapitalize(method.getName().substring(method.getName().startsWith("is") ? 2 : 3));
+		}
 	}
 }

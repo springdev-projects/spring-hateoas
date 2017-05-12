@@ -31,7 +31,7 @@ import org.springframework.hateoas.TemplateVariable.VariableType;
 
 /**
  * Unit tests for {@link UriTemplate}.
- * 
+ *
  * @author Oliver Gierke
  */
 public class UriTemplateUnitTest {
@@ -112,7 +112,7 @@ public class UriTemplateUnitTest {
 		UriTemplate template = new UriTemplate("/foo{?bar,foobar}");
 
 		assertVariables(template, new TemplateVariable("bar", VariableType.REQUEST_PARAM),
-				new TemplateVariable("foobar", VariableType.REQUEST_PARAM));
+			new TemplateVariable("foobar", VariableType.REQUEST_PARAM));
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class UriTemplateUnitTest {
 	@Test
 	public void correctlyExpandsFullUri() {
 		assertThat(new UriTemplate("http://localhost:8080/foo{?bar}").expand().toString())
-				.isEqualTo("http://localhost:8080/foo");
+			.isEqualTo("http://localhost:8080/foo");
 	}
 
 	/**

@@ -15,6 +15,10 @@
  */
 package org.springframework.hateoas.support;
 
+import org.springframework.hateoas.PagedResources;
+import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
+
 import com.fasterxml.jackson.databind.JavaType;
 
 /**
@@ -35,5 +39,28 @@ public final class JacksonHelper {
 		} else {
 			return contentType;
 		}
+	}
+
+	private static boolean isResources(JavaType type) {
+		return type.hasRawClass(Resources.class) || type.hasRawClass(PagedResources.class);
+	}
+
+	private static boolean isResource(JavaType type) {
+		return type.hasRawClass(Resource.class);
+	}
+
+	/**
+	 * Is this a {@literal Resources<Resource<?>>}?
+	 *
+	 * @param type
+	 * @return
+	 */
+	public static boolean isResourcesOfResource(JavaType type) {
+
+		if (isResources(type) && isResource(type.containedType(0))) {
+			return true;
+		}
+
+		return false;
 	}
 }

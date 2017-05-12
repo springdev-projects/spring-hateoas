@@ -28,7 +28,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 /**
  * An ALPS document.
- * 
+ *
  * @author Oliver Gierke
  * @author Greg Turnquist
  * @since 0.15
@@ -46,7 +46,7 @@ public class Alps {
 
 	/**
 	 * Returns a new {@link DescriptorBuilder}.
-	 * 
+	 *
 	 * @return
 	 */
 	public static DescriptorBuilder descriptor() {
@@ -55,7 +55,7 @@ public class Alps {
 
 	/**
 	 * Returns a new {@link DocBuilder}.
-	 * 
+	 *
 	 * @return
 	 */
 	public static DocBuilder doc() {
@@ -64,7 +64,7 @@ public class Alps {
 
 	/**
 	 * Returns a new {@link ExtBuilder}.
-	 * 
+	 *
 	 * @return
 	 */
 	public static ExtBuilder ext() {

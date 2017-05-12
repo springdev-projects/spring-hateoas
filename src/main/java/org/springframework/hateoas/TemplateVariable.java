@@ -72,7 +72,7 @@ public final class TemplateVariable implements Serializable {
 
 	/**
 	 * Returns whether the variable has a description.
-	 * 
+	 *
 	 * @return
 	 */
 	public boolean hasDescription() {

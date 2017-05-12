@@ -219,7 +219,7 @@ public class Link implements Serializable {
 	public boolean isTemplated() {
 		return !getUriTemplate().getVariables().isEmpty();
 	}
-
+	
 	/**
 	 * Turns the current template into a {@link Link} by expanding it using the given parameters.
 	 * 

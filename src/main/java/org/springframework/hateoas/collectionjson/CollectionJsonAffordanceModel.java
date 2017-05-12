@@ -100,10 +100,7 @@ class CollectionJsonAffordanceModel implements AffordanceModel {
 
 		return this.affordance.getInputMethodParameters().stream()
 			.findFirst()
-			.map(methodParameter -> {
-				ResolvableType resolvableType = ResolvableType.forMethodParameter(methodParameter);
-				return PropertyUtils.findProperties(resolvableType);
-			})
+			.map(methodParameter -> PropertyUtils.findProperties(ResolvableType.forMethodParameter(methodParameter)))
 			.orElse(Collections.emptyList())
 			.stream()
 			.map(property -> new CollectionJsonData().withName(property).withValue(""))

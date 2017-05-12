@@ -15,7 +15,7 @@
  */
 package org.springframework.hateoas.mvc;
 
-import static org.springframework.util.StringUtils.*;
+import static org.springframework.util.StringUtils.hasText;
 
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Delegate;
