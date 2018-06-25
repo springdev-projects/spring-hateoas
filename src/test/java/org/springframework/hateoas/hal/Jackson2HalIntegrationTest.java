@@ -344,6 +344,15 @@ public class Jackson2HalIntegrationTest extends AbstractJackson2MarshallingInteg
 		assertThat(result).isEqualTo(setupAnnotatedPagedResources());
 	}
 
+	@Test
+	public void deserializesPagedResourceWithCustomDeserializer() throws Exception {
+		PagedResources<Resource<SimpleAnnotatedPojo>> result = mapper.readValue(ANNOTATED_PAGED_RESOURCES,
+			mapper.getTypeFactory().constructParametricType(PagedResources.class,
+				mapper.getTypeFactory().constructParametricType(Resource.class, CustomAnnotatedPojo.class)));
+
+		assertThat(result).isEqualTo(setupAnnotatedPagedResources());
+	}
+
 	/**
 	 * @see #125
 	 */

@@ -25,6 +25,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
@@ -643,6 +644,11 @@ public class Jackson2HalModule extends SimpleModule {
 
 			List<Object> result = new ArrayList<>();
 			JsonDeserializer<Object> deser = ctxt.findRootValueDeserializer(contentType);
+
+			JsonDeserializer<Object> altDeser = contentType.getValueHandler();
+
+			JsonDeserializer<Object> deser3 = Optional.ofNullable(altDeser).orElse(deser);
+
 			Object object;
 
 			// links is an object, so we parse till we find its end.
@@ -654,11 +660,13 @@ public class Jackson2HalModule extends SimpleModule {
 
 				if (JsonToken.START_ARRAY.equals(jp.nextToken())) {
 					while (!JsonToken.END_ARRAY.equals(jp.nextToken())) {
-						object = deser.deserialize(jp, ctxt);
+//						object = deser.deserialize(jp, ctxt);
+						object = deser3.deserialize(jp, ctxt);
 						result.add(object);
 					}
 				} else {
-					object = deser.deserialize(jp, ctxt);
+//					object = deser.deserialize(jp, ctxt);
+					object = deser3.deserialize(jp, ctxt);
 					result.add(object);
 				}
 			}
